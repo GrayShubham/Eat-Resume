@@ -70,3 +70,38 @@ Results → Google Sheets (ranked shortlist) → Gmail API (auto-drafted emails)
 
 ## 🔗 Live Demo
 👉 [eat-resume.lovable.app](https://eat-resume.lovable.app)
+
+--
+
+## 🔄 Workflow Diagram
+
+```mermaid
+flowchart TD
+    A([🌐 Webhook\nHR Uploads JD + Resumes]) --> B[⚙️ Code in JavaScript\nParse & Prepare Input]
+    B --> C[🔁 Loop Over Items\nProcess Each Resume]
+
+    C -->|All Done| R([✅ Respond to Webhook\nReturn Final Results])
+    C -->|Each Resume| D[📄 Extract from File\nParse Resume Text]
+
+    D --> E[🤖 Candidate Info Extractor\nGemini LLM Chain]
+    D --> F[🤖 Resume Analysis AI Agent\nGemini LLM Chain]
+
+    G[Google Gemini\nChat Model 1] --> E
+    H[Structured Output\nParser 1] --> E
+
+    I[Google Gemini\nChat Model 2] --> F
+    J[Structured Output\nParser 2] --> F
+
+    E --> K[🔀 Merge Candidate Data\nCombine Extracted Info]
+    F --> K
+
+    K --> L[📊 Google Sheets\nStore Candidate Scores]
+    L --> M[🔀 Route by Recommendation]
+
+    M -->|Strong Match| N[📧 Gmail\nDraft Interview Invite]
+    M -->|Weak Match| O[📧 Gmail\nDraft Rejection Email]
+    M -->|Next Resume| C
+
+    N --> C
+    O --> C
+```
